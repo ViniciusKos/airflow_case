@@ -14,14 +14,9 @@ def clean_data():
     with open( tot_name, 'r' ) as inputfile:
         doc = json.load( inputfile )
 
-    # extract data
-    df_raw = {
-        'id'        : doc['data']['id'],
-        'name'      : doc['data']['name'],
-    }
-
     # convert data to csv
-    df = pd.DataFrame( df_raw, index=[0] )
+    df = pd.DataFrame( doc['data'] )
+
 
     end_path=os.path.join( os.path.dirname(__file__), 'src/data', 'country.csv' )
     df.to_csv( end_path )
@@ -58,7 +53,6 @@ task2 = PythonOperator(
         provide_context=True,
         python_callable=clean_data,
         dag=dag )
-
 
 
 
