@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from airflow import DAG
-from airflow.operators.sqlite.operators.sqlite import SqliteOperator
+from airflow.providers.sqlite.operators.sqlite import SqliteOperator
 
 
 # define arguments of DAG
@@ -19,18 +19,18 @@ default_args = {
 dag = DAG( 
           dag_id='analysis_dag',
           default_args=default_args,
-          start_date=datetime( 2022, 12, 11 ),
-          end_date=
+          start_date=datetime( 2022, 12, 18 ),
+          end_date=datetime( 2022, 12, 19 ),
           schedule_interval=timedelta( minutes=60 ) )
 
 
 #define TASKS
 task1 = SqliteOperator(
-    task_id='qiery_sqlite',
-    sqlite_conn_id='',
+    task_id='query_sqlite',
+    sqlite_conn_id='sqlite_conn_id',
     sql=r"""
     SELECT *
-    FROM order_reviews
+    FROM df_airflow
     """,
     dag=dag
 )
